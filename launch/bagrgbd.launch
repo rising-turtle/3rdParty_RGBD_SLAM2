@@ -1,0 +1,19 @@
+<!-- This file demonstrates the use of SIFT features for online SLAM with a Kinect.
+     The openni driver has to be started seperately -->
+<launch>
+  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="log"> 
+    <!-- Input data settings-->
+    <!--param name="config/bagfile_name"               value="/home/davidz/work/exprdata/3DKinect/rgbd_dataset_freiburg1_desk.bag"-->
+    <param name="config/bagfile_name"                  value="/home/davidz/work/data/TUM_kinect_benchmark/rgbd_dataset_freiburg1_desk.bag"/>
+    <param name="config/topic_image_mono"              value="/camera/rgb/image_color"/> <!--could also be color -->
+    <param name="config/topic_image_depth"             value="/camera/depth/image"/>
+    <!--param name="config/topic_points"               value="/camera/depth_registered/points"/-->  <!--if empty, poincloud will be reconstructed from image and depth -->
+    <param name="config/camera_info_topic"             value="/camera/rgb/camera_info"/>
+
+    <param name="config/feature_detector_type"         value="SURF"/><!-- If SIFTGPU is enabled in CMakeLists.txt, use SURF here -->
+    <param name="config/feature_extractor_type"        value="SURF"/><!-- If SIFTGPU is enabled in CMakeLists.txt, use SURF here -->
+    <param name="config/nn_distance_ratio"             value="0.95"/> <!-- Feature correspondence is valid if distance to nearest neighbour is smaller than this parameter times the distance to the 2nd neighbour -->
+    <param name="config/max_keypoints"                 value="600"/><!-- Extract no more than this many keypoints (not honored by SIFTGPU)-->
+    <param name="config/optimizer_skip_step"           value="1"/><!-- Optimize every n-th frame. Set negative for offline operation -->
+  </node>
+</launch>
