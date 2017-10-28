@@ -352,8 +352,16 @@ void G2O_GraphManager::saveIndividualCloudsToFile(QString file_basename)
       continue;
     }
     if(node->pc_col->size() == 0){
-      ROS_INFO("Skipping Node %i, point cloud data is empty!", it->first);
-      continue;
+
+	 // try to recompute point cloud 
+	if(!node->regainPointCloud())
+	{
+      		ROS_INFO("Skipping Node %i, point cloud data is empty!", it->first);
+      		continue;
+	}else
+	{
+		ROS_ERROR_ONCE("g2o_graph_mgr_io.cpp: regainPointCloud succeed!");
+	}
     }
     /*/TODO: is all this correct?
       tf::Transform transform = eigenTransf2TF(v->estimate());
@@ -409,6 +417,9 @@ void G2O_GraphManager::saveIndividualCloudsToFile(QString file_basename)
       Q_EMIT setGUIStatus(message.sprintf("Saving to %s: Transformed Node %i/%i", qPrintable(filename), it->first, (int)camera_vertices.size()));
       pcl::io::savePCDFile(qPrintable(filename), *(node->pc_col), true); //Last arg: true is binary mode. ASCII mode drops color bits
     }
+
+	// delete node pc_col? 
+	node->pc_col = pointcloud_type::Ptr(new pointcloud_type());
 
   }
   Q_EMIT setGUIStatus("Saved all point clouds");

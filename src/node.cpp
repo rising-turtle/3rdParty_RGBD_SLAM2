@@ -386,6 +386,24 @@ tf::StampedTransform Node::getBase2PointsTransform() const {
     return base2points_;
 }
 
+void Node::setCamFrameFile(std::string frgb, std::string fdpt)
+{
+	m_frgb = frgb; 
+	m_fdpt = fdpt; 
+}
+
+bool Node::regainPointCloud()
+ {
+	// 1. read images 
+	// cv::Mat rgb = cv::imread(m_frgb.c_str(), -1); 
+	// cv::Mat dpt = cv::imread(m_fdpt.c_str(), -1); 
+	// if(!rgb.data || !dpt.data)
+	// 	return false; 
+	// return computePointCloudWithImg(rgb, dpt); 
+	return false;
+ }
+
+
 #ifdef USE_ICP_CODE
 bool Node::getRelativeTransformationTo_ICP_code(const Node* target_node,
                                                 Eigen::Matrix4f& transformation,

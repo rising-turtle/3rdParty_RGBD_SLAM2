@@ -260,8 +260,14 @@ void trafoSize(const Eigen::Isometry3d& t, double& angle, double& dist){
 bool isBigTrafo(const Eigen::Isometry3d& t){
     double angle, dist;
     trafoSize(t, angle, dist);
-    return (dist > ParameterServer::instance()->get<double>("min_translation_meter") ||
+    // ROS_INFO("min_translation_meter: %4.3fm, min_rotation_degree: %4.2f", 
+	//	ParameterServer::instance()->get<double>("min_translation_meter") ,
+	//	ParameterServer::instance()->get<double>("min_rotation_degree"));
+    bool ret =  (dist > ParameterServer::instance()->get<double>("min_translation_meter") ||
     	      angle > ParameterServer::instance()->get<double>("min_rotation_degree"));
+    if(ret) ROS_WARN("isBigTrafo = True");
+    else ROS_INFO("isBigTrafo = False");
+    return ret; 
 }
 
 // true iff edge qualifies for generating a new vertex
@@ -309,6 +315,8 @@ bool isSmallTrafo(const g2o::SE3Quat& t, double seconds){
     //Q_EMIT setGUIInfo2(infostring);
     ParameterServer* ps =  ParameterServer::instance();
     //Too big fails too
+    // ROS_INFO("dist/seconds: %4.3fm, max_translation_meter: %4.3fm", dist / seconds, ps->get<double>("max_translation_meter"));
+    // ROS_INFO("angle_around_axis/seconds: %4.2f , max_rotation_degree: %4.2f", angle_around_axis / seconds, ps->get<int>("max_rotation_degree"));
     return (dist / seconds < ps->get<double>("max_translation_meter") &&
             angle_around_axis / seconds < ps->get<int>("max_rotation_degree"));
 }

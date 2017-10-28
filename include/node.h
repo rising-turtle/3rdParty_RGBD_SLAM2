@@ -40,6 +40,7 @@
 //for ground truth
 #include <tf/transform_datatypes.h>
 #include <QMutex>
+#include <string>
 
 #ifdef USE_ICP_BIN
 #include "gicp-fallback.h"
@@ -82,6 +83,12 @@ public:
         // ~Node();
 	virtual ~Node(); // for dynamic cast in the inherited class
 
+  /// regain point cloud using the image's filenames 
+  virtual bool regainPointCloud();
+  void setCamFrameFile(std::string frgb, std::string fdpt);
+  std::string m_frgb; 
+  std::string m_fdpt;
+  
 	///Compare the features of two nodes and compute the transformation
   MatchingResult matchNodePair(const Node* older_node);
   //MatchingResult matchNodePair2(const Node* older_node);

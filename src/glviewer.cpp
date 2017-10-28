@@ -677,8 +677,10 @@ void GLViewer::addPointCloud(pointcloud_type * pc, QMatrix4x4 transform){
     ParameterServer* ps = ParameterServer::instance();
     std::string display_type = ps->get<std::string>("cloud_display_type");
     if(!pc->isOrganized() || ps->get<double>("squared_meshing_threshold") < 0){
+	// ROS_ERROR("display_type = %s , pc->isOrganized = False, squared_meshing_threshold = %lf", display_type.c_str(), ps->get<double>("squared_meshing_threshold"));
       pointCloud2GLPoints(pc);
     } else {
+       // ROS_ERROR("else display_type = %s", display_type.c_str()); 
       if(display_type == "TRIANGLES"){
         pointCloud2GLTriangleList(pc);
       } else if(display_type == "POINTS"){
