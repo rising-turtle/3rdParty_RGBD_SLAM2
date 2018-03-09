@@ -1,3 +1,8 @@
+# Modify RGBDSLAM to work with the sr_slam
+https://github.com/rising-turtle/sr_slam
+
+Original README shows below:
+
 # RGBDSLAM<i>v2</i> ```beta version```
 ... is a state-of-the-art SLAM system for RGB-D cameras, e.g., the Microsoft Kinect.
 You can use it to create highly accurate 3D point clouds or OctoMaps. 
